@@ -7,6 +7,7 @@ use App\Book;
 use App\BorrowLog;
 use App\Exceptions\BookException;
 use Illuminate\Support\Facades\Mail;
+
 class User extends Authenticatable
 {
     use LaratrustUserTrait;
@@ -23,6 +24,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
+
+    protected $casts = ['is_verified' => 'boolean',];
     public function borrow(Book $book)
     {
          
@@ -41,7 +44,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\BorrowLog');
     }
-    protected $casts = ['is_verified'=>'boolean'];
+    protected $casts = [
+    'is_verified'=>'boolean',
+    ];
     public function generateVerificationToken()
     {
         $token = $this->verification_token;
